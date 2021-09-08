@@ -7,7 +7,7 @@ User = get_user_model()
 class AddressModel(models.Model):
     street = models.CharField(max_length=50)
     alley = models.CharField(max_length=50)
-    postal_code = models.CharField(max_length=50, unique=True)
+    postal_code = models.CharField(max_length=50)
     number = models.CharField(max_length=6)
     dore_phone = models.CharField(max_length=10)
 
@@ -20,7 +20,7 @@ class AddressModel(models.Model):
 
 
 class CustomerModel(User):
-    address = models.OneToOneField(AddressModel, on_delete=models.CASCADE,blank=True,null=True)
+    address = models.OneToOneField(AddressModel, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.first_name} -- {self.username}'

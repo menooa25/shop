@@ -1,11 +1,10 @@
-from rest_framework import status, permissions
+from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import permission_classes
-from .serializers import CustomerSerializer
-from ..models import CustomerModel
+from .serializers import CustomerSerializer, CustomerProfileSerializer, AddressSerializer
+from ..models import CustomerModel, AddressModel
 
 
 class RegisterLogin(APIView):
@@ -38,5 +37,41 @@ class RegisterLogin(APIView):
         return Response({'msg': 'Username or password is incorrect'}, status=status.HTTP_404_NOT_FOUND)
 
 
-class UpdateCustomer(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class CustomerProfile(APIView):
+    # taking token and checking valuable
+    authentication_classes = [authentication.TokenAuthentication]
+
+    # updating profile firstname lastname and phone
+    def put(self, request):
+        serialized_customer = CustomerProfileSerializer(data=request.data)
+        if serialized_customer.is_valid(raise_exception=True):
+            user = request.user
+            print(serialized_customer.data)
+            user.first_name = serialized_customer.data.get('first_name')
+            user.last_name = serialized_customer.data.get('last_name')
+            user.username = serialized_customer.data.get('username')
+            user.save()
+            return Response({'msg': 'User updated successfully'}, status=status.HTTP_200_OK)
+        return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomerAddress(APIView):
+    # taking token and checking valuable
+    authentication_classes = [authentication.TokenAuthentication]
+
+    def put(self, request):
+        # creating address and updating if exists
+        serialized_address = AddressSerializer(data=request.data)
+        if serialized_address.is_valid():
+            user = request.user
+            customer = CustomerModel.objects.get(id=user.id)
+            # if user has address it will delete and replace with new one
+            if customer.address:
+                address_id = customer.address.id
+                address = AddressModel.objects.get(id=address_id)
+                address.delete()
+            address = serialized_address.save()
+            customer.address = address
+            customer.save()
+            return Response({'msg': 'address created and added to user'}, status=status.HTTP_201_CREATED)
+        return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
