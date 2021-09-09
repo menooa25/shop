@@ -19,7 +19,7 @@ class RegisterLogin(APIView):
             return Response({'msg': 'User created successfully'}, status=status.HTTP_201_CREATED)
         return Response({'msg': 'This username is taken'}, status=status.HTTP_200_OK)
 
-    def get(self, request):
+    def put(self, request):
         serialized_customer = CustomerSerializer(data=request.data)
         # when is_valid() return true that shows that username exists
         if not serialized_customer.is_valid():
