@@ -41,6 +41,7 @@ class Checkout(models.Model):
 
 
 class Shipping(models.Model):
+    # remember to log checkout details every time!
     checkout = models.OneToOneField(Checkout, null=True, on_delete=models.SET_NULL)
     # choice values are same string for readability in database
     IN_PROCESS = 'IN_PROCESS'
