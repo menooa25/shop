@@ -39,15 +39,3 @@ class Image(models.Model):
         verbose_name = 'عکس'
         verbose_name_plural = 'عکس ها'
 
-
-class Discount(models.Model):
-    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='discount')
-    percent = models.PositiveIntegerField()
-    expire_date = models.DateTimeField()
-
-    def __str__(self):
-        return f'{self.product} -- {self.percent}'
-
-    class Meta:
-        verbose_name = 'کد تخفیف'
-        verbose_name_plural = 'کد های تخفیف'
