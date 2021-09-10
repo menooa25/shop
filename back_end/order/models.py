@@ -62,3 +62,11 @@ class Shipping(models.Model):
 
     def __str__(self):
         return f'{self.checkout} -- {self.status}'
+
+
+class OrdersHistory(models.Model):
+    # use this if you are not using logfile history
+    order_time = models.DateTimeField(auto_now_add=True)
+    customer_phone = models.CharField(max_length=20)
+    total_price = models.DecimalField(decimal_places=2, max_digits=12)
+    products = models.JSONField()
