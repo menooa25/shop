@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
-from .serializers import CustomerSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer
+from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer
 from ..models import CustomerModel, AddressModel
 
 
@@ -14,18 +14,25 @@ class RegisterLogin(APIView):
     def post(self, request):
         # registering user
         # we are using username as email
-        serialized_customer = CustomerSerializer(data=request.data)
+        serialized_customer = RegisterSerializer(data=request.data)
         if serialized_customer.is_valid(raise_exception=True):
             username = serialized_customer.data.get('username')
-            password = serialized_customer.data.get('password')
+            first_name = serialized_customer.data.get('first_name')
+            last_name = serialized_customer.data.get('last_name')
+            phone = serialized_customer.data.get('phone')
+            password1 = serialized_customer.data.get('password1')
+            password2 = serialized_customer.data.get('password2')
+            if password1 != password2:
+                return Response({'msg': 'password doesnt match'})
             if CustomerModel.objects.filter(username=username):
                 return Response({'msg': 'This emial is taken'}, status=status.HTTP_200_OK)
-            CustomerModel.objects.create_user(username=username, password=password)
+            CustomerModel.objects.create_user(username=username, password=password2, first_name=first_name,
+                                              last_name=last_name, phone=phone)
             return Response({'msg': 'User created successfully'}, status=status.HTTP_201_CREATED)
         return Response({'msg': 'invalid data'}, status=status.HTTP_200_OK)
 
     def put(self, request):
-        serialized_customer = CustomerSerializer(data=request.data)
+        serialized_customer = LoginSerializer(data=request.data)
         # when is_valid() return true that shows that username exists
         if serialized_customer.is_valid():
             username = serialized_customer.data.get('username')

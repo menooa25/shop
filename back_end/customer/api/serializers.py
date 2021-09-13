@@ -13,7 +13,7 @@ class RegisterSerializer(serializers.Serializer):
 
 
 
-class CustomerSerializer(serializers.ModelSerializer):
+class LoginSerializer(serializers.ModelSerializer):
     # remember this username used as email
     username = serializers.EmailField()
 
