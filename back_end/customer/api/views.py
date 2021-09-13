@@ -1,30 +1,36 @@
+import hashlib
+
 from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from rest_framework.authtoken.models import Token
-from .serializers import CustomerSerializer, CustomerProfileSerializer, AddressSerializer
+from .serializers import CustomerSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer
 from ..models import CustomerModel, AddressModel
 
 
 class RegisterLogin(APIView):
     def post(self, request):
         # registering user
-        # we are using phone number as username
+        # we are using username as email
         serialized_customer = CustomerSerializer(data=request.data)
-        if serialized_customer.is_valid():
+        if serialized_customer.is_valid(raise_exception=True):
             username = serialized_customer.data.get('username')
             password = serialized_customer.data.get('password')
+            if CustomerModel.objects.filter(username=username):
+                return Response({'msg': 'This emial is taken'}, status=status.HTTP_200_OK)
             CustomerModel.objects.create_user(username=username, password=password)
             return Response({'msg': 'User created successfully'}, status=status.HTTP_201_CREATED)
-        return Response({'msg': 'This username is taken'}, status=status.HTTP_200_OK)
+        return Response({'msg': 'invalid data'}, status=status.HTTP_200_OK)
 
     def put(self, request):
         serialized_customer = CustomerSerializer(data=request.data)
         # when is_valid() return true that shows that username exists
-        if not serialized_customer.is_valid():
+        if serialized_customer.is_valid():
             username = serialized_customer.data.get('username')
             password = serialized_customer.data.get('password')
+            print(make_password(password))
             if authenticate(username=username, password=password):
                 # if user authenticated we will return auth token
                 user = CustomerModel.objects.get(username=username)
@@ -46,10 +52,10 @@ class CustomerProfile(APIView):
         serialized_customer = CustomerProfileSerializer(data=request.data)
         if serialized_customer.is_valid(raise_exception=True):
             user = request.user
-            print(serialized_customer.data)
             user.first_name = serialized_customer.data.get('first_name')
             user.last_name = serialized_customer.data.get('last_name')
             user.username = serialized_customer.data.get('username')
+            user.set_password(serialized_customer.data.get('password'))
             user.save()
             return Response({'msg': 'User updated successfully'}, status=status.HTTP_200_OK)
         return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
