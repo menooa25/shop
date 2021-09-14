@@ -12,7 +12,6 @@ class RegisterSerializer(serializers.Serializer):
     password2 = serializers.CharField(max_length=100)
 
 
-
 class LoginSerializer(serializers.ModelSerializer):
     # remember this username used as email
     username = serializers.EmailField()

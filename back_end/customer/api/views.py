@@ -37,7 +37,6 @@ class RegisterLogin(APIView):
         if serialized_customer.is_valid():
             username = serialized_customer.data.get('username')
             password = serialized_customer.data.get('password')
-            print(make_password(password))
             if authenticate(username=username, password=password):
                 # if user authenticated we will return auth token
                 user = CustomerModel.objects.get(username=username)
