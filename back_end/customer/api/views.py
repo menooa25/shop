@@ -113,8 +113,10 @@ class ChangeCustomerPassword(APIView):
         serialized_customer = ChangeCustomerPasswordSerializer(data=request.data)
         if serialized_customer.is_valid(raise_exception=True):
             passwords = serialized_customer.data
-            if passwords['password1'] != passwords['password2'] or not check_password(passwords['password'], user.password):
+            if passwords['password1'] != passwords['password2'] or not check_password(passwords['password'],
+                                                                                      user.password):
                 return Response({'msg': 'password does not match'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-
+            user.set_password(passwords['password2'])
+            user.save()
             return Response({'msg': 'password changed successfully'}, status=status.HTTP_202_ACCEPTED)
         return Response({'msg': 'invalid data'}, status=status.HTTP_400_BAD_REQUEST)

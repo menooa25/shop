@@ -92,7 +92,10 @@ class Profile extends Component {
                 <h4 className="text-center mb-0 pt-2">تغیر رمز عبور</h4>
 
                 {/* change password part */}
-                <form action="" className="px-2 text-right">
+                <form
+                  onSubmit={this.handleOnChangePassword}
+                  className="px-2 text-right"
+                >
                   <div className="form-group">
                     <label className="small" htmlFor="password">
                       کلمه عبور
@@ -130,7 +133,6 @@ class Profile extends Component {
                     />
                   </div>
                   <button
-                    type="button"
                     className="btn btn-danger w-100 mb-2 mt-2 rounded shadow"
                   >
                     تغیر رمز عبور
@@ -145,7 +147,21 @@ class Profile extends Component {
     );
   }
 
+  handleOnChangePassword = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const header = new Headers();
+    const token = sessionStorage["token"];
+    header.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/customers/customer_change_password", {
+      method: "POST",
+      body: form,
+      headers: header,
+    })
+  };
+
   handleOnUpdate = (e) => {
+    // we are updating customer info here
     e.preventDefault();
     const form = new FormData(e.target);
     const header = new Headers();
