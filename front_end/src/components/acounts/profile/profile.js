@@ -8,7 +8,16 @@ class Profile extends Component {
       <div className="h-100vh bg-light">
         <div className="container">
           <div className="row m-0">
-            <div className="col-8 h-100vh"></div>
+            <div className="col-8 h-100vh">
+              <div className="row m-0 mt-3 text-info" dir="rtl">
+                <h4>
+                  <i className="bi bi-dot icons" />
+                  آدرس من
+                </h4>
+              </div>
+              <div className='row rounded bg-white shadow'> </div>
+            </div>
+            {/* after here profile info will be shown */}
             <div className="col-4 h-100vh">
               <div className="rounded mt-3 shadow bg-white">
                 <h4 className="text-center mb-0 pt-2">ویرایش اطلاعات</h4>
@@ -132,9 +141,7 @@ class Profile extends Component {
                       placeholder="کلمه عبور جدید خود را مجددن  وارد کنید"
                     />
                   </div>
-                  <button
-                    className="btn btn-danger w-100 mb-2 mt-2 rounded shadow"
-                  >
+                  <button className="btn btn-danger w-100 mb-2 mt-2 rounded shadow">
                     تغیر رمز عبور
                   </button>
                 </form>
@@ -157,7 +164,7 @@ class Profile extends Component {
       method: "POST",
       body: form,
       headers: header,
-    })
+    });
   };
 
   handleOnUpdate = (e) => {
