@@ -1,3 +1,4 @@
+import copy
 import hashlib
 
 from rest_framework import status, authentication
@@ -8,7 +9,7 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer,\
+from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer, \
     CustomerProfileSerializerGet
 from ..models import CustomerModel, AddressModel
 
@@ -57,16 +58,22 @@ class CustomerProfile(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    # updating profile firstname lastname and phone
+    def if_data_exist_update(self, user, request_data):
+        """ this will check witch customer data is passed and only that will update """
+        user_obj = copy.copy(user)
+        for key in request_data:
+            if key == 'password':
+                user_obj.set_password(request_data[key])
+            else:
+                setattr(user_obj, key, request_data[key])
+        return user_obj
+
     def put(self, request):
         serialized_customer = CustomerProfileSerializer(data=request.data)
         if serialized_customer.is_valid(raise_exception=True):
             user = request.user
-            user.first_name = serialized_customer.data.get('first_name')
-            user.last_name = serialized_customer.data.get('last_name')
-            user.username = serialized_customer.data.get('username')
-            user.set_password(serialized_customer.data.get('password'))
-            user.save()
+            updated_user = self.if_data_exist_update(user=user, request_data=serialized_customer.data)
+            updated_user.save()
             return Response({'msg': 'User updated successfully'}, status=status.HTTP_200_OK)
         return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 

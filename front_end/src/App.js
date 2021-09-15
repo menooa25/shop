@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js.map";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ProductContainer from "./components/products/productContainer";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
@@ -8,20 +9,13 @@ import Login from "./components/acounts/login";
 import Profile from "./components/acounts/profile/profile";
 
 class App extends Component {
-
   render() {
     return (
       <Router>
         <header className="container d-flex justify-content-between my-2 mt-3">
           <div className="d-flex">
-            <Link
-              className="bi-person-circle icons text-info"
-              to="login"
-            />
-            <Link
-              className="bi-basket2 ml-2 icons text-info"
-              to="basket"
-            />
+            <Link className="bi-person-circle icons text-info" to="login" />
+            <Link className="bi-basket2 ml-2 icons text-info" to="basket" />
             <div className="ml-3">
               <p className="text-muted small mb-0">با ما تماس بگیرید</p>
               <p className="mb-0 text-muted small">۰۲۱-۱۲۳۴۵۶۷۸</p>
@@ -48,15 +42,16 @@ class App extends Component {
             </Link>
           </div>
         </header>
+
         <Switch>
           <Route path="/register">
             <Register />
           </Route>
           <Route path="/login">
-            <Login/>
+            <Login />
           </Route>
-          <Route path='/profile'>
-            <Profile/>
+          <Route path="/profile">
+            <Profile />
           </Route>
           <Route path="/products">
             <ProductContainer />

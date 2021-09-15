@@ -40,18 +40,6 @@ class Profile extends Component {
                         placeholder="نام خانوادگی خود را وارد کنید"
                       />
                     </div>
-                    <div className="form-group">
-                      <label className="small" htmlFor="password1">
-                        کلمه عبور
-                      </label>
-                      <input
-                        className="form-control rounded-pill"
-                        type="password"
-                        name="password1"
-                        id="password1"
-                        placeholder="کلمه عبود خود را وارد کنید"
-                      />
-                    </div>
 
                     <div className="form-group">
                       <label className="small" htmlFor="email">
@@ -78,26 +66,60 @@ class Profile extends Component {
                         required
                       />
                     </div>
-                    <div className="form-group">
-                      <label className="small" htmlFor="password2">
-                        تایید کلمه عبور
-                      </label>
-                      <input
-                        className="form-control rounded-pill"
-                        type="password"
-                        name="password2"
-                        id="password2"
-                        placeholder="کلمه عبور خود را مجددن  وارد کنید"
-                      />
-                    </div>
                   </div>
-                  <div className='px-2'>
-                    <button className="btn btn-success w-100 mb-2 mt-3 rounded shadow">
-                    ایجاد حساب کاربری
-                  </button>
+                  <div className="px-2">
+                    <button className="btn btn-success w-100 mt-2 rounded shadow">
+                      بروزرسانی اطلاعات حساب کاربری
+                    </button>
                   </div>
-
                 </form>
+                <hr />
+                {/* change password part */}
+                <form action="" className="px-2 text-right">
+                  <div className="form-group">
+                    <label className="small" htmlFor="password">
+                      کلمه عبور
+                    </label>
+                    <input
+                      className="form-control rounded-pill text-right"
+                      type="password"
+                      name="password"
+                      id="password"
+                      placeholder="کلمه عبود خود را وارد کنید"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="small" htmlFor="password1">
+                      کلمه عبور جدید
+                    </label>
+                    <input
+                      className="form-control rounded-pill text-right"
+                      type="password"
+                      name="password1"
+                      id="password1"
+                      placeholder="کلمه عبود جدید خود را وارد کنید"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label className="small" htmlFor="password2">
+                       تایید کلمه عبور جدید
+                    </label>
+                    <input
+                      className="form-control rounded-pill text-right"
+                      type="password"
+                      name="password2"
+                      id="password2"
+                      placeholder="کلمه عبور جدید خود را مجددن  وارد کنید"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="btn btn-danger w-100 mb-2 mt-2 rounded shadow"
+                  >
+                    تغیر رمز عبور
+                  </button>
+                </form>
+                {/* end of change password part */}
               </div>
             </div>
           </div>
