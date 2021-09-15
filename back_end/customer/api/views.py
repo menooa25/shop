@@ -34,7 +34,7 @@ class RegisterLogin(APIView):
     def put(self, request):
         serialized_customer = LoginSerializer(data=request.data)
         # when is_valid() return true that shows that username exists
-        if serialized_customer.is_valid():
+        if not serialized_customer.is_valid():
             username = serialized_customer.data.get('username')
             password = serialized_customer.data.get('password')
             if authenticate(username=username, password=password):

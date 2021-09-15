@@ -14,7 +14,7 @@ class RegisterSerializer(serializers.Serializer):
 
 class LoginSerializer(serializers.ModelSerializer):
     # remember this username used as email
-    username = serializers.EmailField()
+    # username = serializers.EmailField()
 
     class Meta:
         model = CustomerModel
