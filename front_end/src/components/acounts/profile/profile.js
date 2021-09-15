@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 class Profile extends Component {
+  state = { username: "", first_name: "", last_name: "", phone: "" };
+
   render() {
     return (
       <div className="h-100vh bg-light">
@@ -8,11 +10,12 @@ class Profile extends Component {
           <div className="row m-0">
             <div className="col-8 h-100vh"></div>
             <div className="col-4 h-100vh">
-              <div className="rounded shadow">
+              <div className="rounded mt-3 shadow bg-white">
+                <h4 className="text-center mb-0 pt-2">ویرایش اطلاعات</h4>
                 <form
-                  onSubmit={this.handleOnRegister}
+                  onSubmit={this.handleOnUpdate}
                   dir="rtl"
-                  className="mt-3 rounded bg-white"
+                  className="rounded "
                   action=""
                 >
                   <div className="d-flex flex-column p-2 text-right">
@@ -21,11 +24,14 @@ class Profile extends Component {
                         نام
                       </label>
                       <input
+                        onChange={this.handleOnChange}
                         className="form-control rounded-pill"
                         type="text"
                         name="first_name"
                         id="first_name"
                         placeholder="نام خود را وارد کنید"
+                        value={this.state.first_name}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -38,6 +44,9 @@ class Profile extends Component {
                         name="last_name"
                         id="last_name"
                         placeholder="نام خانوادگی خود را وارد کنید"
+                        value={this.state.last_name}
+                        onChange={this.handleOnChange}
+                        required
                       />
                     </div>
 
@@ -51,6 +60,9 @@ class Profile extends Component {
                         name="username"
                         id="email"
                         placeholder="ایمیل خود را وارد کنید"
+                        value={this.state.username}
+                        onChange={this.handleOnChange}
+                        required
                       />
                     </div>
                     <div className="form-group">
@@ -64,16 +76,21 @@ class Profile extends Component {
                         id="phone"
                         placeholder="شماره موبایل خود را وارد کنید"
                         required
+                        value={this.state.phone}
+                        onChange={this.handleOnChange}
                       />
                     </div>
                   </div>
                   <div className="px-2">
-                    <button className="btn btn-success w-100 mt-2 rounded shadow">
-                      بروزرسانی اطلاعات حساب کاربری
+                    <button className="btn btn-success w-100 my-2 rounded shadow">
+                      بروزرسانی اطلاعات
                     </button>
                   </div>
                 </form>
-                <hr />
+              </div>
+              <div className="rounded shadow bg-white mt-4">
+                <h4 className="text-center mb-0 pt-2">تغیر رمز عبور</h4>
+
                 {/* change password part */}
                 <form action="" className="px-2 text-right">
                   <div className="form-group">
@@ -102,7 +119,7 @@ class Profile extends Component {
                   </div>
                   <div className="form-group">
                     <label className="small" htmlFor="password2">
-                       تایید کلمه عبور جدید
+                      تایید کلمه عبور جدید
                     </label>
                     <input
                       className="form-control rounded-pill text-right"
@@ -126,6 +143,38 @@ class Profile extends Component {
         </div>
       </div>
     );
+  }
+
+  handleOnUpdate = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const header = new Headers();
+    const token = sessionStorage["token"];
+    header.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/customers/customer_profile", {
+      method: "PUT",
+      body: form,
+      headers: header,
+    });
+  };
+  handleOnChange = (e) => {
+    const element = e.target;
+    let element_state = {};
+    element_state[element.name] = element.value;
+    this.setState(element_state);
+  };
+
+  componentDidMount() {
+    const header = new Headers();
+    const token = sessionStorage["token"];
+    // getting customer profile info from token and storing
+    header.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/customers/customer_profile", {
+      method: "GET",
+      headers: header,
+    })
+      .then((res) => res.json())
+      .then((res) => this.setState(res));
   }
 }
 

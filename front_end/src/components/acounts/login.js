@@ -14,7 +14,7 @@ class Login extends Component {
             //  in this part we will store access token in to session storage
             .then((res) => {
                 if (res["token"]) {
-                    sessionStorage.setItem("token", res.token);
+                    sessionStorage.setItem("token", "Token "+res.token);
                     this.setState({redirectToProfile: true});
                 }
             });

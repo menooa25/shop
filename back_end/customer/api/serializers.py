@@ -37,9 +37,24 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
 
 
 class CustomerProfileSerializerGet(serializers.ModelSerializer):
-    # remember this username used as email
-    username = serializers.EmailField()
-
     class Meta:
         model = CustomerModel
         fields = ['first_name', 'last_name', 'username', 'address', 'phone']
+
+
+class CustomerProfileSerializerUpdate(serializers.ModelSerializer):
+    username = serializers.EmailField(required=False)
+    phone = serializers.RegexField('^[0-9]*[0-9]$', required=False)
+
+    class Meta:
+        model = CustomerModel
+        fields = ['first_name', 'last_name', 'username', 'phone']
+
+
+class ChangeCustomerPasswordSerializer(serializers.ModelSerializer):
+    password1 = serializers.CharField(max_length=100)
+    password2 = serializers.CharField(max_length=100)
+
+    class Meta:
+        model = CustomerModel
+        fields = ['password', 'password1', 'password2']
