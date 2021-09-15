@@ -5,8 +5,10 @@ import ProductContainer from "./components/products/productContainer";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Register from "./components/acounts/register";
 import Login from "./components/acounts/login";
+import Profile from "./components/acounts/profile/profile";
 
 class App extends Component {
+
   render() {
     return (
       <Router>
@@ -52,6 +54,9 @@ class App extends Component {
           </Route>
           <Route path="/login">
             <Login/>
+          </Route>
+          <Route path='/profile'>
+            <Profile/>
           </Route>
           <Route path="/products">
             <ProductContainer />

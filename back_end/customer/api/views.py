@@ -5,8 +5,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer
+from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer,\
+    CustomerProfileSerializerGet
 from ..models import CustomerModel, AddressModel
 
 
@@ -51,7 +54,8 @@ class RegisterLogin(APIView):
 
 class CustomerProfile(APIView):
     # taking token and checking valuable
-    authentication_classes = [authentication.TokenAuthentication]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     # updating profile firstname lastname and phone
     def put(self, request):
@@ -66,10 +70,16 @@ class CustomerProfile(APIView):
             return Response({'msg': 'User updated successfully'}, status=status.HTTP_200_OK)
         return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request):
+        customer = CustomerModel.objects.get(id=request.user.id)
+        serialized_customer = CustomerProfileSerializerGet(customer)
+        return Response(serialized_customer.data)
+
 
 class CustomerAddress(APIView):
     # taking token and checking valuable
     authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def put(self, request):
         # creating address and updating if exists

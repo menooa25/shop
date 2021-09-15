@@ -15,7 +15,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div className="bg-light w-100vh pt-3">
+      <div className="bg-light h-100vh pt-3">
         <div className="row m-0">
           <div className="d-flex flex-column  col-5 mx-auto bg-white shadow rounded">
             <i className="bi-person-plus-fill mt-3 text-center display-2 text-success"></i>

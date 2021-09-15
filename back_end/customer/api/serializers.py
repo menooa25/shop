@@ -34,3 +34,12 @@ class CustomerProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerModel
         fields = ['first_name', 'last_name', 'username', 'password']
+
+
+class CustomerProfileSerializerGet(serializers.ModelSerializer):
+    # remember this username used as email
+    username = serializers.EmailField()
+
+    class Meta:
+        model = CustomerModel
+        fields = ['first_name', 'last_name', 'username', 'address', 'phone']
