@@ -1,7 +1,18 @@
 import React, { Component } from "react";
+import {BrowserRouter, matchPath, Route, Switch} from "react-router-dom";
+import ShowAddress from "./showAddress";
+import ModifyAddress from "./modifyAddress";
 
 class Profile extends Component {
-  state = { username: "", first_name: "", last_name: "", phone: "" ,address:''};
+  state = {
+    username: "",
+    first_name: "",
+    last_name: "",
+    phone: "",
+    address_str: "",
+    address:null,
+  };
+
 
   render() {
     return (
@@ -16,10 +27,18 @@ class Profile extends Component {
                 </h4>
               </div>
               {/* after here is customer address */}
-              <div className="rounded bg-white shadow text-right mr-3">
-                <p className='pt-3 mb-2 px-1'>{this.state.address}</p>
-                <button className='ml-auto m-2 btn h-25 btn-outline-info btn-sm '>ویرایش آدرس</button>
-              </div>
+              <BrowserRouter>
+                <div className="rounded bg-white shadow text-right mr-3">
+                  <Switch>
+                    <Route path="/profile/address">
+                      <ModifyAddress address={this.state.address}/>
+                    </Route>
+                    <Route path="/profile">
+                      <ShowAddress address={this.state.address_str}  />
+                    </Route>
+                  </Switch>
+                </div>
+              </BrowserRouter>
             </div>
             {/* after here profile info will be shown */}
             <div className="col-4 h-100vh">

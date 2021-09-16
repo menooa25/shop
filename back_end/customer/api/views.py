@@ -83,8 +83,8 @@ class CustomerProfile(APIView):
         # we want pass actual address not just address id
         if address_id:
             address = AddressModel.objects.get(id=address_id)
-            response_data['address'] = str(address)
-
+            response_data['address_str'] = str(address)
+            response_data['address'] = AddressSerializer(address).data.values()
         return Response(response_data)
 
 
