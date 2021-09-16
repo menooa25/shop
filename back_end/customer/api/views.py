@@ -1,5 +1,6 @@
 import copy
 import hashlib
+import json
 
 from rest_framework import status, authentication
 from rest_framework.response import Response
@@ -77,7 +78,14 @@ class CustomerProfile(APIView):
     def get(self, request):
         customer = CustomerModel.objects.get(id=request.user.id)
         serialized_customer = CustomerProfileSerializerGet(customer)
-        return Response(serialized_customer.data)
+        response_data = dict(serialized_customer.data)
+        address_id = response_data.get('address')
+        # we want pass actual address not just address id
+        if address_id:
+            address = AddressModel.objects.get(id=address_id)
+            response_data['address'] = str(address)
+
+        return Response(response_data)
 
 
 class CustomerAddress(APIView):

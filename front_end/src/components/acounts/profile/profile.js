@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 class Profile extends Component {
-  state = { username: "", first_name: "", last_name: "", phone: "" };
+  state = { username: "", first_name: "", last_name: "", phone: "" ,address:''};
 
   render() {
     return (
@@ -15,7 +15,11 @@ class Profile extends Component {
                   آدرس من
                 </h4>
               </div>
-              <div className='row rounded bg-white shadow'> </div>
+              {/* after here is customer address */}
+              <div className="rounded bg-white shadow text-right mr-3">
+                <p className='pt-3 mb-2 px-1'>{this.state.address}</p>
+                <button className='ml-auto m-2 btn h-25 btn-outline-info btn-sm '>ویرایش آدرس</button>
+              </div>
             </div>
             {/* after here profile info will be shown */}
             <div className="col-4 h-100vh">

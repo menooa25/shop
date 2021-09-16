@@ -16,7 +16,7 @@ class AddressModel(models.Model):
         verbose_name_plural = 'آدرس ها'
 
     def __str__(self):
-        return f'{self.street} -- {self.postal_code}'
+        return f'خیابان {self.street} / کوچه {self.alley} / کد پستی{self.postal_code} / پلاک{self.number} / زنگ {self.dore_phone}'
 
 
 class CustomerModel(User):
