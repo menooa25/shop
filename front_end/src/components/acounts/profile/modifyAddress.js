@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 
 class ModifyAddress extends Component {
-  state = {...this.props.address}
   render() {
-    console.log( this.state)
     return (
       <div className="d-flex">
         <iframe
@@ -13,9 +11,10 @@ class ModifyAddress extends Component {
           scrolling="no"
           marginHeight="0"
           marginWidth="0"
+          title='google map'
         />
 
-        <form className="p-3 w-100" dir="rtl">
+        <form className="p-3 w-100" dir="rtl" onSubmit={this.handleOnSubmit}>
           <div className="form-group">
             <label htmlFor="street">خیابان</label>
             <input
@@ -71,6 +70,19 @@ class ModifyAddress extends Component {
       </div>
     );
   }
+
+  handleOnSubmit = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
+    const header = new Headers();
+    const token = sessionStorage["token"];
+    header.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/customers/customer_address", {
+      method: "PUT",
+      body: form,
+      headers: header,
+    });
+  };
 }
 
 export default ModifyAddress;
