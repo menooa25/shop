@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 
 class ModifyAddress extends Component {
+  state = {
+    street: "",
+    alley: "",
+    postal_code: "",
+    number: "",
+    dore_phone: "",
+  };
+
   render() {
     return (
       <div className="d-flex">
@@ -11,7 +19,7 @@ class ModifyAddress extends Component {
           scrolling="no"
           marginHeight="0"
           marginWidth="0"
-          title='google map'
+          title="google map"
         />
 
         <form className="p-3 w-100" dir="rtl" onSubmit={this.handleOnSubmit}>
@@ -23,6 +31,8 @@ class ModifyAddress extends Component {
               name="street"
               id="street"
               placeholder="اسم خیابان"
+              value={this.state.street}
+              onChange={this.handleOnChange}
             />
           </div>
           <div className="form-group">
@@ -33,36 +43,44 @@ class ModifyAddress extends Component {
               name="alley"
               id="alley"
               placeholder="اسم کوچه"
+              value={this.state.alley}
+              onChange={this.handleOnChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="postal_code">کد پستی</label>
             <input
               className="form-control w-100"
-              type="number"
+              type="tell"
               name="postal_code"
               id="postal_code"
               placeholder="کد پستی"
+              value={this.state.postal_code}
+              onChange={this.handleOnChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="number">پلاک</label>
             <input
               className="form-control w-100"
-              type="number"
+              type="tell"
               name="number"
               id="number"
               placeholder="پلاک"
+              value={this.state.number}
+              onChange={this.handleOnChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="dore_phone">زنگ</label>
             <input
               className="form-control w-100"
-              type="number"
+              type="tell"
               name="dore_phone"
               id="dore_phone"
               placeholder="زنگ"
+              value={this.state.dore_phone}
+              onChange={this.handleOnChange}
             />
           </div>
           <button className="btn btn-success">ویرایش آدرس</button>
@@ -70,6 +88,13 @@ class ModifyAddress extends Component {
       </div>
     );
   }
+
+  handleOnChange = (e) => {
+    const element = e.target;
+    let address_state = {};
+    address_state[element.name] = element.value;
+    this.setState(address_state);
+  };
 
   handleOnSubmit = (e) => {
     e.preventDefault();
@@ -81,8 +106,28 @@ class ModifyAddress extends Component {
       method: "PUT",
       body: form,
       headers: header,
+    }).then(() => {
+      sessionStorage.clear();
+      window.location.assign("/login");
     });
   };
+  // here we will fill the customer address data
+  fillStateWithAddress = () => {
+    if (this.state.street == "" && this.props.address) {
+      this.setState({
+        street: this.props.address[1],
+        alley: this.props.address[2],
+        postal_code: this.props.address[3],
+        number: this.props.address[4],
+        dore_phone: this.props.address[5],
+      });
+    }
+  };
+
+  componentDidMount() {
+    // we are little waiting till data will be ready
+    setTimeout(this.fillStateWithAddress, 300);
+  }
 }
 
 export default ModifyAddress;
