@@ -140,4 +140,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # allowed origins
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "http://127.0.0.1:3000",
 ]
+# caches with redis
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'redis_cache.RedisCache',
+#         'LOCATION': 'localhost:6379',
+#     },
+# }

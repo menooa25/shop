@@ -1,9 +1,23 @@
 version: "3.8"
 
-services: 
+services:
+#  backend:
+#    build: ./back_end
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#    networks:
+#      - db
   db:
+    container_name: postgres
     image: postgres:9.6.23-buster
-    ports: 
-      - 5432:5432
-    environment: 
+    ports:
+      - "5432:5432"
+    environment:
       POSTGRES_PASSWORD: mysecretpassword
+#    networks:
+#      - db
+#  networks:
+#    db:
+#      driver: bridge
