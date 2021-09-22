@@ -70,3 +70,10 @@ class OrdersHistory(models.Model):
     customer_phone = models.CharField(max_length=20)
     total_price = models.DecimalField(decimal_places=2, max_digits=12)
     products = models.JSONField()
+
+    class Meta:
+        verbose_name = 'تاریخچه سفارش'
+        verbose_name_plural = 'تاریخچه سفارشات'
+
+    def __str__(self):
+        return f'{self.customer_phone} -- {self.total_price} -- {self.order_time}'

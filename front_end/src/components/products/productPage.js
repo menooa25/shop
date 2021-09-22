@@ -11,20 +11,45 @@ const ProductPage = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-4">
-          <div>lorem50</div>
-        </div>
-        <div className="col-8">
-          <div className="rounded shadow p-2 d-flex flex-column">
-            {product && (
-              <img
-                src={"http://127.0.0.1:8000" + product.image}
-                className="ml-auto"
-                alt=""
-              />
-            )}
+    <div className="bg-light">
+      <div className="container pt-3">
+        <div className="text-right row ">
+          <div className="col-4">
+            <div className="bg-white rounded shadow p-2">
+              <form dir="rtl">
+                <div className="form-group">
+                  <label htmlFor="quantity">تعداد</label>
+                  <input
+                    className="form-control"
+                    id="quantity"
+                    type="number"
+                    min={1}
+                    max={product && product.quantity}
+                    defaultValue="1"
+                  />
+                </div>
+                <button className="btn btn-primary form-control">خرید</button>
+              </form>
+            </div>
+          </div>
+          <div className="col-8">
+            <div dir="rtl" className=" rounded shadow p-2 bg-white">
+              {product && (
+                <div className="d-flex flex-column">
+                  {" "}
+                  <div className="d-flex">
+                    <img
+                      src={"http://127.0.0.1:8000" + product.image}
+                      className="ml-auto"
+                      alt=""
+                    />
+                    <p className="p-3">{product.short_description}</p>
+                  </div>
+                  <h3 className="p-3"> مشخصات</h3>
+                  <p>{product.long_description}</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

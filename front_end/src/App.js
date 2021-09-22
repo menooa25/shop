@@ -15,8 +15,8 @@ class App extends Component {
       <Router>
         <header className="container d-flex justify-content-between my-2 mt-3">
           <div className="d-flex">
-            <Link className="bi-person-circle icons text-info" to="login" />
-            <Link className="bi-basket2 ml-2 icons text-info" to="basket" />
+            <Link className="bi-person-circle icons text-info" to="/login" />
+            <Link className="bi-basket2 ml-2 icons text-info" to="/basket" />
             <div className="ml-3">
               <p className="text-muted small mb-0">با ما تماس بگیرید</p>
               <p className="mb-0 text-muted small">۰۲۱-۱۲۳۴۵۶۷۸</p>

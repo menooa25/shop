@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ShowAddress from "./showAddress";
 import ModifyAddress from "./modifyAddress";
+import CheckoutsHistory from "./checkoutsHistory";
 
 class Profile extends Component {
   state = {
@@ -10,9 +11,8 @@ class Profile extends Component {
     last_name: "",
     phone: "",
     address_str: "",
-    address:null,
+    address: null,
   };
-
 
   render() {
     return (
@@ -31,15 +31,25 @@ class Profile extends Component {
                 <div className="rounded bg-white shadow text-right mr-3">
                   <Switch>
                     <Route path="/profile/address">
-                      <ModifyAddress address={this.state.address}/>
+                      <ModifyAddress address={this.state.address} />
                     </Route>
                     <Route path="/profile">
-                      <ShowAddress address={this.state.address_str}  />
+                      <ShowAddress address={this.state.address_str} />
                     </Route>
                   </Switch>
                 </div>
               </BrowserRouter>
+              {/* after here checkout history will be shown */}
+              <div className="row m-0 mt-3 text-info" dir="rtl">
+                <h4>
+                  <i className="bi bi-dot icons" />
+                  سفارشات من
+                </h4>
+              </div>
+
+              <CheckoutsHistory />
             </div>
+
             {/* after here profile info will be shown */}
             <div className="col-4 h-100vh">
               <div className="rounded mt-3 shadow bg-white">
