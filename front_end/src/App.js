@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import Register from "./components/acounts/register";
 import Login from "./components/acounts/login";
 import Profile from "./components/acounts/profile/profile";
+import ProductPage from "./components/products/productPage";
 
 class App extends Component {
   render() {
@@ -37,7 +38,7 @@ class App extends Component {
             </form>
           </div>
           <div>
-            <Link to="/products" className="alert-link">
+            <Link to="/" className="alert-link">
               اسم فروشگاه
             </Link>
           </div>
@@ -53,7 +54,10 @@ class App extends Component {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/products">
+          <Route path="/product_page/:id">
+            <ProductPage />
+          </Route>
+          <Route path="/">
             <ProductContainer />
           </Route>
         </Switch>
