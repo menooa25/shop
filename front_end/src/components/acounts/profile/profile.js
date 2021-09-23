@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ShowAddress from "./showAddress";
 import ModifyAddress from "./modifyAddress";
 import CheckoutsHistory from "./checkoutsHistory";
+import DeliveredCheckoutHistory from "./deliveredCheckoutHistory";
 
 class Profile extends Component {
   state = {
@@ -39,6 +40,14 @@ class Profile extends Component {
                   </Switch>
                 </div>
               </BrowserRouter>
+              {/* after here delivered checkouts history will be shown */}
+              <div className="row m-0 mt-3 text-info" dir="rtl">
+                <h4>
+                  <i className="bi bi-dot icons" />
+                  سفارشات تهویل داده نشده
+                </h4>
+              </div>
+              <DeliveredCheckoutHistory />
               {/* after here checkout history will be shown */}
               <div className="row m-0 mt-3 text-info" dir="rtl">
                 <h4>

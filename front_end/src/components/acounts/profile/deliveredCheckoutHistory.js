@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-function CheckoutsHistory(props) {
+function DeliveredCheckoutHistory(props) {
   const [checkout_history, setCheckoutHistory] = useState(null);
   // getting user checkout history
   useEffect(() => {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/orders_history", {
+    fetch("http://127.0.0.1:8000/api/v1/orders/orders_history1", {
       headers: header,
       method: "GET",
     })
@@ -40,4 +40,4 @@ function CheckoutsHistory(props) {
   );
 }
 
-export default CheckoutsHistory;
+export default DeliveredCheckoutHistory;

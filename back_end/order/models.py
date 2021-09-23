@@ -5,14 +5,14 @@ from product.models import Product
 
 
 class Basket(models.Model):
-    customer = models.OneToOneField(CustomerModel, on_delete=models.CASCADE)
+    customer = models.ForeignKey(CustomerModel, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'سبد خرید'
         verbose_name_plural = 'سبد های خرید'
 
     def __str__(self):
-        return self.customer.username
+        return f"{self.customer.username} {self.customer_id} -- {self.id}"
 
 
 class Order(models.Model):
