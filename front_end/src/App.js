@@ -8,6 +8,7 @@ import Register from "./components/acounts/register";
 import Login from "./components/acounts/login";
 import Profile from "./components/acounts/profile/profile";
 import ProductPage from "./components/products/productPage";
+import Basket from "./components/basket/basket";
 
 class App extends Component {
   render() {
@@ -53,6 +54,9 @@ class App extends Component {
           </Route>
           <Route path="/profile">
             <Profile />
+          </Route>
+          <Route path="/basket">
+            <Basket />
           </Route>
           <Route path="/product_page/:id">
             <ProductPage />

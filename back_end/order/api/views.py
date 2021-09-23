@@ -2,7 +2,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
-from ..models import Shipping, Order
+from ..models import Shipping, Order, Basket
+from .serializers import OrderSerializer
 
 
 class CheckoutsHistory(APIView):
@@ -42,3 +43,15 @@ class CheckoutsHistory(APIView):
                 checkouts.append(self.pretty_print_history(orders, shipping.status))
             return Response(checkouts)
         return Response('')
+
+
+class BasketView(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request):
+        customer_id = request.user.id
+        orders = Order.objects.filter(basket__primary=True, basket__customer_id=customer_id)
+        serialized_order = OrderSerializer(orders, many=True)
+
+        return Response(serialized_order.data)

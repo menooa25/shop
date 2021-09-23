@@ -6,6 +6,8 @@ from product.models import Product
 
 class Basket(models.Model):
     customer = models.ForeignKey(CustomerModel, on_delete=models.CASCADE)
+    # if primary is true that means this basket is customer in time working basket
+    primary = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = 'سبد خرید'
