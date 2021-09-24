@@ -58,6 +58,9 @@ class BasketView(APIView):
 
         return Response(serialized_order.data)
 
+    def post(self, request):
+        return Response('')
+
 
 class VerifyDiscount(APIView):
     permission_classes = [IsAuthenticated]
@@ -66,7 +69,7 @@ class VerifyDiscount(APIView):
     def post(self, request):
         customer_id = request.user.id
         discount_code = request.data.get('code')
-        discount = DiscountModel.objects.filter(customer_id=customer_id,code=discount_code).first()
+        discount = DiscountModel.objects.filter(customer_id=customer_id, code=discount_code).first()
         if discount:
             return Response(discount.percent)
         return Response(0)

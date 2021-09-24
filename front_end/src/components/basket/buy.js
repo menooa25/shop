@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 class Buy extends Component {
-  state = { discount: 0, totalPrice: 0 };
+  state = { discount: 0, totalPrice: 0, discountCode: null };
   render() {
     if (this.props.totalPrice) {
       this.setState({ totalPrice: this.props.totalPrice });
@@ -56,6 +56,11 @@ class Buy extends Component {
             </button>
           </form>
         </div>
+        <div>
+          <button className="btn btn-success form-control mt-2 shadow">
+            تسویه حساب
+          </button>
+        </div>
       </>
     );
   }
@@ -72,9 +77,12 @@ class Buy extends Component {
     })
       .then((res) => res.json())
       //  setting discount percent times total price
-      .then((res) =>
-        this.setState({ discount: this.state.totalPrice * (res / 100) })
-      );
+      .then((res) => {
+        this.setState({
+          discount: this.state.totalPrice * (res / 100),
+          discountCode: form.get("code"),
+        });
+      });
   };
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     if (
