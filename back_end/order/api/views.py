@@ -2,7 +2,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
-from ..models import Shipping, Order, Basket
+
+from customer.models import DiscountModel
+from ..models import Shipping, Order
 from .serializers import OrderSerializer
 
 
@@ -55,3 +57,16 @@ class BasketView(APIView):
         serialized_order = OrderSerializer(orders, many=True)
 
         return Response(serialized_order.data)
+
+
+class VerifyDiscount(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        customer_id = request.user.id
+        discount_code = request.data.get('code')
+        discount = DiscountModel.objects.filter(customer_id=customer_id,code=discount_code).first()
+        if discount:
+            return Response(discount.percent)
+        return Response(0)
