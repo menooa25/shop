@@ -38,8 +38,19 @@ class SearchProducts(APIView):
 
 class CategoryProduct(APIView):
     def get(self, request, _id):
-        products = ProductSerializer(Product.objects.filter(category_id=_id), many=True)
-        return Response(products.data)
+        products = ProductSerializer(Product.objects.filter(category_id=_id), many=True).data
+        page_size = 3
+        paginated_products = []
+        products_in_page = []
+        for product in products:
+            if len(products_in_page) < page_size:
+                products_in_page.append(product)
+            if len(products_in_page) == page_size:
+                paginated_products.append(copy.copy(products_in_page))
+                products_in_page.clear()
+        paginated_products.append(copy.copy(products_in_page))
+        products = paginated_products
+        return Response(products)
 
 
 class Categories(APIView):
