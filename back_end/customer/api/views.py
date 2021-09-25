@@ -1,7 +1,7 @@
 import copy
-import hashlib
-import json
+import uuid
 
+from django.core.mail import send_mail
 from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +11,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer, \
-    CustomerProfileSerializerGet, CustomerProfileSerializerUpdate, ChangeCustomerPasswordSerializer
+    CustomerProfileSerializerGet, CustomerProfileSerializerUpdate, ChangeCustomerPasswordSerializer, \
+    ResetPasswordEmailSerializer, ResetPasswordCodeSerializer
 from ..models import CustomerModel, AddressModel
 
 
@@ -52,6 +53,44 @@ class RegisterLogin(APIView):
                 token = Token.objects.create(user=user)
                 return Response({'token': str(token)}, status=status.HTTP_202_ACCEPTED)
         return Response({'msg': 'Username or password is incorrect'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class ResetPassword(APIView):
+
+    def post(self, request):
+        try:
+            serialized_email = ResetPasswordEmailSerializer(data=request.data)
+            if serialized_email.is_valid(raise_exception=True):
+                email = serialized_email.data['email']
+                customer = CustomerModel.objects.filter(username=email).first()
+                if customer:
+                    reset_password_code = str(uuid.uuid4())
+                    customer.reset_password_code = reset_password_code
+                    customer.save()
+                    send_mail(
+                        'Reset Password',
+                        f'your reset password code is ( {reset_password_code} )',
+                        'info@yoursite.com',
+                        ['to@client.com'],
+                        fail_silently=False,
+                    )
+            return Response({'msg': 'If emails exists reset password code will sent to it'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Something went wrong'}, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        reset_password_code_serialized = ResetPasswordCodeSerializer(data=request.data)
+        if reset_password_code_serialized.is_valid(raise_exception=True):
+            rest_password_code = reset_password_code_serialized.data['code']
+            password1 = reset_password_code_serialized.data['password1']
+            password2 = reset_password_code_serialized.data['password2']
+            customer = CustomerModel.objects.filter(reset_password_code=rest_password_code).first()
+            if customer:
+                if password1 != password2:
+                    return Response({'msg': 'password does not match'})
+                customer.set_password(password2)
+                return Response({'msg': 'password updated successfully'})
+        return Response({'msg': 'the code is not valid'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CustomerProfile(APIView):

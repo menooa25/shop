@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import RegisterLogin, CustomerProfile, CustomerAddress,ChangeCustomerPassword
+from .views import RegisterLogin, CustomerProfile, CustomerAddress, ChangeCustomerPassword, ResetPassword
 
 urlpatterns = [
     path('register_login', RegisterLogin.as_view(), name='register_login'),
+    path('reset_password', ResetPassword.as_view(), name='reset_password'),
     # getting user data and updating
     path('customer_profile', CustomerProfile.as_view(), name='customer_profile'),
     path('customer_address', CustomerAddress.as_view(), name='customer_address'),
