@@ -33,7 +33,7 @@ class CheckoutsHistory(APIView):
     def get(self, request, delivered=0):
         customer_id = request.user.id
         if delivered:
-            shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id, status=Shipping.DELIVERED)
+            shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id).exclude(status=Shipping.DELIVERED)
         else:
             shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id)
         if shipping:

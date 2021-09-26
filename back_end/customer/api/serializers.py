@@ -60,7 +60,7 @@ class ChangeCustomerPasswordSerializer(serializers.ModelSerializer):
         fields = ['password', 'password1', 'password2']
 
 
-class ResetPasswordEmailSerializer(serializers.Serializer):
+class CustomerEmailSerializer(serializers.Serializer):
     email = serializers.EmailField()
 
 

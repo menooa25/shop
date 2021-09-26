@@ -87,7 +87,7 @@ class ProductContainer extends Component {
     else
       fetch(`http://127.0.0.1:8000/api/v1/products/category/${value}`)
         .then((res) => res.json())
-        .then((res) => this.setState({ products: res }));
+        .then((res) => this.setState({ products: res, no_pages: res.length }));
   };
 
   gettingAllProducts = () => {

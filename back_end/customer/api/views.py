@@ -5,16 +5,16 @@ from django.core.mail import send_mail
 from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model
 from django.contrib.auth.hashers import check_password
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSerializer, RegisterSerializer, \
     CustomerProfileSerializerGet, CustomerProfileSerializerUpdate, ChangeCustomerPasswordSerializer, \
-    ResetPasswordEmailSerializer, ResetPasswordCodeSerializer
+    CustomerEmailSerializer, ResetPasswordCodeSerializer
 from ..models import CustomerModel, AddressModel
-
+User = get_user_model()
 
 class RegisterLogin(APIView):
     def post(self, request):
@@ -59,7 +59,7 @@ class ResetPassword(APIView):
 
     def post(self, request):
         try:
-            serialized_email = ResetPasswordEmailSerializer(data=request.data)
+            serialized_email = CustomerEmailSerializer(data=request.data)
             if serialized_email.is_valid(raise_exception=True):
                 email = serialized_email.data['email']
                 customer = CustomerModel.objects.filter(username=email).first()
@@ -88,9 +88,20 @@ class ResetPassword(APIView):
             if customer:
                 if password1 != password2:
                     return Response({'msg': 'password does not match'})
-                customer.set_password(password2)
+                customer_user = User.objects.get(id=customer.id)
+                customer_user.set_password(password2)
+                customer_user.reset_password_code = None
+                customer_user.save()
                 return Response({'msg': 'password updated successfully'})
         return Response({'msg': 'the code is not valid'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class CheckUserAuth(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response(True)
 
 
 class CustomerProfile(APIView):

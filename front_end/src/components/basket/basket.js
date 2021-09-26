@@ -1,9 +1,15 @@
 import React, { Component } from "react";
 import Buy from "./buy";
 import Orders from "./orders";
+import CheckUserAuth from "../../utils/checkUserAuth";
+import { Redirect } from "react-router-dom";
 
 class Basket extends Component {
   state = { totalPrice: "" };
+  constructor() {
+    super();
+    CheckUserAuth();
+  }
   render() {
     return (
       <div className="bg-light h-100vh">
@@ -24,6 +30,7 @@ class Basket extends Component {
       </div>
     );
   }
+
   handleTotalPrice = (totalPrice) => {
     this.setState({ totalPrice });
   };

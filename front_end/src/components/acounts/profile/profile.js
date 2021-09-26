@@ -4,6 +4,7 @@ import ShowAddress from "./showAddress";
 import ModifyAddress from "./modifyAddress";
 import CheckoutsHistory from "./checkoutsHistory";
 import DeliveredCheckoutHistory from "./deliveredCheckoutHistory";
+import CheckUserAuth from "../../../utils/checkUserAuth";
 
 class Profile extends Component {
   state = {
@@ -16,6 +17,7 @@ class Profile extends Component {
   };
 
   render() {
+    // CheckUserAuth();
     return (
       <div className="h-100vh bg-light">
         <div className="container">

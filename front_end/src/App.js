@@ -9,6 +9,8 @@ import Login from "./components/acounts/login";
 import Profile from "./components/acounts/profile/profile";
 import ProductPage from "./components/products/productPage";
 import Basket from "./components/basket/basket";
+import ResetPassword from "./components/acounts/resetPassword";
+import ResetPasswordEmail from "./components/acounts/profile/resetPasswordEmail";
 
 class App extends Component {
   render() {
@@ -51,6 +53,12 @@ class App extends Component {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/reset_password_email">
+            <ResetPasswordEmail />
+          </Route>
+          <Route path="/reset_password">
+            <ResetPassword />
           </Route>
           <Route path="/profile">
             <Profile />
