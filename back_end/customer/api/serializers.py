@@ -68,3 +68,4 @@ class ResetPasswordCodeSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=50, min_length=30)
     password1 = serializers.CharField(max_length=50)
     password2 = serializers.CharField(max_length=50)
+

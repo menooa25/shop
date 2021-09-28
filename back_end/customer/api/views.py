@@ -14,7 +14,9 @@ from .serializers import LoginSerializer, CustomerProfileSerializer, AddressSeri
     CustomerProfileSerializerGet, CustomerProfileSerializerUpdate, ChangeCustomerPasswordSerializer, \
     CustomerEmailSerializer, ResetPasswordCodeSerializer
 from ..models import CustomerModel, AddressModel
+
 User = get_user_model()
+
 
 class RegisterLogin(APIView):
     def post(self, request):

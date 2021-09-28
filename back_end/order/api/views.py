@@ -1,11 +1,12 @@
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 
-from customer.models import DiscountModel
-from ..models import Shipping, Order
-from .serializers import OrderSerializer
+from customer.models import DiscountModel, CustomerModel
+from ..models import Shipping, Order, Basket
+from .serializers import OrderSerializer, OrderSimpleSerializer
 
 
 class CheckoutsHistory(APIView):
@@ -33,7 +34,8 @@ class CheckoutsHistory(APIView):
     def get(self, request, delivered=0):
         customer_id = request.user.id
         if delivered:
-            shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id).exclude(status=Shipping.DELIVERED)
+            shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id).exclude(
+                status=Shipping.DELIVERED)
         else:
             shipping = Shipping.objects.filter(checkout__basket__customer_id=customer_id)
         if shipping:
@@ -73,3 +75,26 @@ class VerifyDiscount(APIView):
         if discount:
             return Response(discount.percent)
         return Response(0)
+
+
+class OrderProduct(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def post(self, request):
+        customer_id = request.user.id
+        request_data={}
+        request_data['product'] = int(request.data.get('product'))
+        request_data['quantity'] = int(request.data.get('quantity'))
+        basket = Basket.objects.filter(customer_id=customer_id, primary=True).first()
+        if not basket:
+            basket = Basket(customer=CustomerModel.objects.get(id=customer_id))
+            basket.save()
+            request_data['basket'] = basket.id
+        else:
+            request_data['basket'] = basket.id
+        serialized_product_order = OrderSimpleSerializer(data=request_data)
+        if serialized_product_order.is_valid(raise_exception=True):
+            serialized_product_order.save()
+            return Response({'msg':'product added to basket'})
+        return Response({"msg": 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

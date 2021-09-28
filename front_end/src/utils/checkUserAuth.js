@@ -14,6 +14,7 @@ const CheckUserAuth = () => {
       headers,
     }).then((res) => {
       if (res.status === 401) redirectToLogin();
+      else return true;
     });
   }
 };

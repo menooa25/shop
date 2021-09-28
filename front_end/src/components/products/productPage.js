@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import CheckUserAuth from "../../utils/checkUserAuth";
 
 const ProductPage = () => {
   const [id] = useState(useParams().id);
@@ -9,14 +10,37 @@ const ProductPage = () => {
       .then((res) => res.json())
       .then((res) => setProduct(res));
   }, []);
+  const onBuy = (e) => {
+    e.preventDefault();
+    const form = new FormData(e.target);
 
+    const header = new Headers();
+    const token = sessionStorage["token"];
+    header.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/orders/buy", {
+      method: "POST",
+      headers: header,
+      body: form,
+    });
+    CheckUserAuth();
+  };
   return (
     <div className="bg-light">
       <div className="container pt-3">
         <div className="text-right row ">
           <div className="col-4">
             <div className="bg-white rounded shadow p-2">
-              <form dir="rtl">
+              <p>
+                <span className="text-success">{product && product.price}</span>{" "}
+                : قیمت
+              </p>
+              <form onSubmit={onBuy} dir="rtl">
+                <input
+                  type="number"
+                  name="product"
+                  value={product && product.id}
+                  hidden
+                />
                 <div className="form-group">
                   <label htmlFor="quantity">تعداد</label>
                   <input
@@ -24,6 +48,7 @@ const ProductPage = () => {
                     id="quantity"
                     type="number"
                     min={1}
+                    name="quantity"
                     max={product && product.quantity}
                     defaultValue="1"
                   />
