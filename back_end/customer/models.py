@@ -35,6 +35,7 @@ class CustomerModel(User):
 class DiscountModel(models.Model):
     code = models.CharField(max_length=20)
     customer = models.OneToOneField(CustomerModel, on_delete=models.CASCADE, related_name='discount')
+    # change to foreignkey
     percent = models.PositiveIntegerField()
     expire_date = models.DateTimeField()
 

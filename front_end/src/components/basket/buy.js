@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import CheckUserAuth from "../../utils/checkUserAuth";
 
 class Buy extends Component {
-  state = { discount: 0, totalPrice: 0, discountCode: null };
+  state = { discount: 0, totalPrice: 0, discountCode: "" };
   render() {
     if (this.props.totalPrice) {
       this.setState({ totalPrice: this.props.totalPrice });
@@ -51,19 +52,35 @@ class Buy extends Component {
                 dir="ltr"
               />
             </div>
-            <button className="form-control btn btn-outline-danger">
+            <button type="btn" className="form-control btn btn-outline-danger">
               اعمال کد تخفیف
             </button>
           </form>
         </div>
         <div>
-          <button className="btn btn-success form-control mt-2 shadow">
+          <button
+            onClick={this.handleOnBuy}
+            className="btn btn-success form-control mt-2 shadow"
+          >
             تسویه حساب
           </button>
         </div>
       </>
     );
   }
+  handleOnBuy = () => {
+    CheckUserAuth();
+    const form = new FormData();
+    form.set("code", this.state.discountCode);
+    const headers = new Headers();
+    const token = sessionStorage["token"];
+    headers.set("Authorization", token);
+    fetch("http://127.0.0.1:8000/api/v1/orders/add_to_checkout", {
+      method: "POST",
+      headers,
+      body: form,
+    });
+  };
   handleOnCheckDiscount = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);

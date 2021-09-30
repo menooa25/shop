@@ -5,7 +5,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 
 from customer.models import DiscountModel, CustomerModel
-from ..models import Shipping, Order, Basket
+from ..models import Shipping, Order, Basket, Checkout
 from .serializers import OrderSerializer, OrderSimpleSerializer
 
 
@@ -14,15 +14,14 @@ class CheckoutsHistory(APIView):
     authentication_classes = [TokenAuthentication]
 
     # querying orders to find product_name: quantity, status and calculate total price
-    def pretty_print_history(self, orders, status):
+    def pretty_print_history(self, orders, status,checkout):
         products = list()
-        total_price = 0
+        total_price = checkout.total_price
         for order in orders:
             products.append({
                 "name": order.product.name,
                 "quantity": order.quantity
             })
-            total_price += order.product.price * order.quantity
 
         pretty_history = {
             "product": products,
@@ -44,7 +43,7 @@ class CheckoutsHistory(APIView):
             for shipping in shipping:
                 basket = shipping.checkout.basket
                 orders = Order.objects.filter(basket_id=basket.id)
-                checkouts.append(self.pretty_print_history(orders, shipping.status))
+                checkouts.append(self.pretty_print_history(orders, shipping.status,shipping.checkout))
             return Response(checkouts)
         return Response('')
 
@@ -59,9 +58,6 @@ class BasketView(APIView):
         serialized_order = OrderSerializer(orders, many=True)
 
         return Response(serialized_order.data)
-
-    def post(self, request):
-        return Response('')
 
 
 class VerifyDiscount(APIView):
@@ -83,7 +79,7 @@ class OrderProduct(APIView):
 
     def post(self, request):
         customer_id = request.user.id
-        request_data={}
+        request_data = {}
         request_data['product'] = int(request.data.get('product'))
         request_data['quantity'] = int(request.data.get('quantity'))
         basket = Basket.objects.filter(customer_id=customer_id, primary=True).first()
@@ -96,5 +92,37 @@ class OrderProduct(APIView):
         serialized_product_order = OrderSimpleSerializer(data=request_data)
         if serialized_product_order.is_valid(raise_exception=True):
             serialized_product_order.save()
-            return Response({'msg':'product added to basket'})
+            return Response({'msg': 'product added to basket'})
         return Response({"msg": 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class AddToCheckout(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+
+    def get_total_price(self, basket):
+        total_price = 0
+        for order in basket.order_set.all():
+            quantity = order.quantity
+            price = order.product.price
+            total_price += quantity * price
+        return total_price
+
+    def post(self, request):
+        customer_id = request.user.id
+        basket = Basket.objects.filter(customer_id=customer_id, primary=True).first()
+        if not basket.primary:
+            return Response({'msg': 'you dont have primary basket'})
+        discount_code = request.data.get('code')
+        discount = DiscountModel.objects.filter(customer_id=customer_id, code=discount_code).first()
+        total_price = float(self.get_total_price(basket))
+        if discount:
+            discount_percent = discount.percent / 100
+            total_price = total_price - (total_price * discount_percent)
+        basket.primary = False
+        basket.save()
+        checkout = Checkout(basket=basket, is_paid=True,total_price=total_price)
+        checkout.save()
+        shipping = Shipping(status=Shipping.IN_PROCESS, checkout=checkout)
+        shipping.save()
+        return Response({'msg': 'thanks for purchase'})

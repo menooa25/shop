@@ -25,7 +25,7 @@ const ProductPage = () => {
     CheckUserAuth();
   };
   return (
-    <div className="bg-light">
+    <div className="bg-light h-100vh">
       <div className="container pt-3">
         <div className="text-right row ">
           <div className="col-4">

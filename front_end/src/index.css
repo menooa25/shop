@@ -20,7 +20,7 @@ code {
     monospace;
 }
 .h-100vh {
-  height: 100vh !important;
+  min-height: 100vh !important;
 }
 .icons {
   font-size: 2rem;

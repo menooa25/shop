@@ -32,6 +32,7 @@ class Order(models.Model):
 
 class Checkout(models.Model):
     basket = models.OneToOneField(Basket, on_delete=models.CASCADE)
+    total_price = models.FloatField(default=-1, blank=True, null=True)
     is_paid = models.BooleanField(default=False)
 
     class Meta:
