@@ -34,7 +34,6 @@ class OrderSimpleSerializer(serializers.ModelSerializer):
         product = Product.objects.get(id=product_id)
         product.quantity -= self.data.get('quantity')
         product.save()
-        product.save()
 
     class Meta:
         model = Order
