@@ -8,19 +8,19 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: mysecretpassword
-  backend:
-    build: back_end
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-  frontend:
-    container_name: frontend
-    build: front_end
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
+#  backend:
+#    build: back_end
+#    command: python manage.py runserver 0.0.0.0:8000
+#    volumes:
+#      - .:/code
+#    ports:
+#      - "8000:8000"
+#    depends_on:
+#      - db
+#  frontend:
+#    container_name: frontend
+#    build: front_end
+#    ports:
+#      - "3000:3000"
+#    depends_on:
+#      - backend
