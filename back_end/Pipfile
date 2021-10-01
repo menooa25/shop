@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 pillow = "*"
 django-cors-headers = "*"
 django-redis-cache = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
