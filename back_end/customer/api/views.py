@@ -2,6 +2,7 @@ import copy
 import uuid
 
 from django.core.mail import send_mail
+from django.utils.translation import gettext as _
 from rest_framework import status, authentication
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -31,13 +32,13 @@ class RegisterLogin(APIView):
             password1 = serialized_customer.data.get('password1')
             password2 = serialized_customer.data.get('password2')
             if password1 != password2:
-                return Response({'msg': 'password doesnt match'})
+                return Response({'msg': _('password doesnt match')})
             if CustomerModel.objects.filter(username=username):
-                return Response({'msg': 'This emial is taken'}, status=status.HTTP_200_OK)
+                return Response({'msg': _('This emial is taken')}, status=status.HTTP_200_OK)
             CustomerModel.objects.create_user(username=username, password=password2, first_name=first_name,
                                               last_name=last_name, phone=phone)
-            return Response({'msg': 'User created successfully'}, status=status.HTTP_201_CREATED)
-        return Response({'msg': 'invalid data'}, status=status.HTTP_200_OK)
+            return Response({'msg': _('User created successfully')}, status=status.HTTP_201_CREATED)
+        return Response({'msg': _('invalid data')}, status=status.HTTP_200_OK)
 
     def put(self, request):
         serialized_customer = LoginSerializer(data=request.data)
@@ -54,7 +55,7 @@ class RegisterLogin(APIView):
                     old_token.delete()
                 token = Token.objects.create(user=user)
                 return Response({'token': str(token)}, status=status.HTTP_202_ACCEPTED)
-        return Response({'msg': 'Username or password is incorrect'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'msg': _('Username or password is incorrect')}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ResetPassword(APIView):
@@ -76,9 +77,9 @@ class ResetPassword(APIView):
                         ['to@client.com'],
                         fail_silently=False,
                     )
-            return Response({'msg': 'If emails exists reset password code will sent to it'}, status=status.HTTP_200_OK)
+            return Response({'msg': _('If emails exists reset password code will sent to it')}, status=status.HTTP_200_OK)
         except:
-            return Response({'msg': 'Something went wrong'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': _('Something went wrong')}, status=status.HTTP_400_BAD_REQUEST)
 
     def put(self, request):
         reset_password_code_serialized = ResetPasswordCodeSerializer(data=request.data)
@@ -89,13 +90,13 @@ class ResetPassword(APIView):
             customer = CustomerModel.objects.filter(reset_password_code=rest_password_code).first()
             if customer:
                 if password1 != password2:
-                    return Response({'msg': 'password does not match'})
+                    return Response({'msg': _('password does not match')})
                 customer_user = User.objects.get(id=customer.id)
                 customer_user.set_password(password2)
                 customer_user.reset_password_code = None
                 customer_user.save()
-                return Response({'msg': 'password updated successfully'})
-        return Response({'msg': 'the code is not valid'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'msg': _('password updated successfully')})
+        return Response({'msg': _('the code is not valid')}, status=status.HTTP_404_NOT_FOUND)
 
 
 class CheckUserAuth(APIView):
@@ -124,8 +125,8 @@ class CustomerProfile(APIView):
             user = CustomerModel.objects.get(id=request.user.id)
             updated_user = self.if_data_exist_update(user=user, request_data=serialized_customer.data)
             updated_user.save()
-            return Response({'msg': 'User updated successfully'}, status=status.HTTP_200_OK)
-        return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': _('User updated successfully')}, status=status.HTTP_200_OK)
+        return Response({'msg': _('Invalid data')}, status=status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         customer = CustomerModel.objects.get(id=request.user.id)
@@ -159,8 +160,8 @@ class CustomerAddress(APIView):
             address = serialized_address.save()
             customer.address = address
             customer.save()
-            return Response({'msg': 'address created and added to user'}, status=status.HTTP_201_CREATED)
-        return Response({'msg': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': _('address created and added to user')}, status=status.HTTP_201_CREATED)
+        return Response({'msg': _('Invalid data')}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ChangeCustomerPassword(APIView):
@@ -175,8 +176,8 @@ class ChangeCustomerPassword(APIView):
             passwords = serialized_customer.data
             if passwords['password1'] != passwords['password2'] or not check_password(passwords['password'],
                                                                                       user.password):
-                return Response({'msg': 'password does not match'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+                return Response({'msg': _('password does not match')}, status=status.HTTP_406_NOT_ACCEPTABLE)
             user.set_password(passwords['password2'])
             user.save()
-            return Response({'msg': 'password changed successfully'}, status=status.HTTP_202_ACCEPTED)
-        return Response({'msg': 'invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': _('password changed successfully')}, status=status.HTTP_202_ACCEPTED)
+        return Response({'msg': _('invalid data')}, status=status.HTTP_400_BAD_REQUEST)

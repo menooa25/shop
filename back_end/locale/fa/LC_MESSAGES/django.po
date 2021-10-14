@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-10-14 16:58+0330\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\customer\api\views.py:35
+msgid "password doesnt match"
+msgstr ""
+
+#: .\customer\api\views.py:37
+msgid "This emial is taken"
+msgstr "این ایمیل شخص دیگه ای ثبت کرده"
+
+#: .\customer\api\views.py:40
+msgid "User created successfully"
+msgstr "اکانت با موفقیت ساخته شد"
+
+#: .\customer\api\views.py:41 .\customer\api\views.py:183
+msgid "invalid data"
+msgstr "اطلاعات نا متبر است"
+
+#: .\customer\api\views.py:58
+msgid "Username or password is incorrect"
+msgstr "یوزرنیم یا پسورد اشتباه است"
+
+#: .\customer\api\views.py:80
+msgid "If emails exists reset password code will sent to it"
+msgstr "اگر این ایمیل وجود داشته باشد کد برای ریست کردن پسورد ارسال خواهد شد"
+
+#: .\customer\api\views.py:82
+msgid "Something went wrong"
+msgstr "چیزی درست نیست"
+
+#: .\customer\api\views.py:93 .\customer\api\views.py:179
+msgid "password does not match"
+msgstr "پسورد تتابق ندارد"
+
+#: .\customer\api\views.py:98
+msgid "password updated successfully"
+msgstr "پسورد با موفقیت بروزرسانی شد"
+
+#: .\customer\api\views.py:99
+msgid "the code is not valid"
+msgstr "کد نا معطبر است"
+
+#: .\customer\api\views.py:128
+msgid "User updated successfully"
+msgstr "یوزر با موفقیت بروزرسانی شد"
+
+#: .\customer\api\views.py:129 .\customer\api\views.py:164
+msgid "Invalid data"
+msgstr "اطلاعت نا متیر است"
+
+#: .\customer\api\views.py:163
+msgid "address created and added to user"
+msgstr "ادرس درست شد و به یوزد اظافه شد"
+
+#: .\customer\api\views.py:182
+msgid "password changed successfully"
+msgstr "پسورد با موفقیت تغییر کرد"
