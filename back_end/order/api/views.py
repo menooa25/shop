@@ -4,7 +4,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.views import APIView
 
-from django.utils.translation import gettext as _
 from customer.models import DiscountModel, CustomerModel
 from ..models import Shipping, Order, Basket, Checkout
 from .serializers import OrderSerializer, OrderSimpleSerializer
@@ -93,8 +92,8 @@ class OrderProduct(APIView):
         serialized_product_order = OrderSimpleSerializer(data=request_data)
         if serialized_product_order.is_valid(raise_exception=True):
             serialized_product_order.save()
-            return Response({'msg': _('product added to basket')})
-        return Response({"msg": _('something went wrong')}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({'msg': 'product added to basket'})
+        return Response({"msg": 'something went wrong'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class AddToCheckout(APIView):
@@ -113,7 +112,7 @@ class AddToCheckout(APIView):
         customer_id = request.user.id
         basket = Basket.objects.filter(customer_id=customer_id, primary=True).first()
         if not basket.primary:
-            return Response({'msg': _('you dont have primary basket')})
+            return Response({'msg': 'you dont have primary basket'})
         discount_code = request.data.get('code')
         discount = DiscountModel.objects.filter(customer_id=customer_id, code=discount_code).first()
         total_price = float(self.get_total_price(basket))
@@ -126,4 +125,4 @@ class AddToCheckout(APIView):
         checkout.save()
         shipping = Shipping(status=Shipping.IN_PROCESS, checkout=checkout)
         shipping.save()
-        return Response({'msg': _('thanks for purchase')})
+        return Response({'msg': 'thanks for purchase'})
