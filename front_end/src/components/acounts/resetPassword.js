@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import SiteURL from "../../utils/url";
 
 class ResetPassword extends Component {
   changePassword = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    fetch("http://127.0.0.1:8000/api/v1/customers/reset_password", {
+    fetch(SiteURL + "/api/v1/customers/reset_password", {
       method: "PUT",
       body: form,
     });

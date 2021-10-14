@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import SiteURL from "../../utils/url";
 
 class ProductShow extends Component {
   render() {
@@ -10,7 +11,7 @@ class ProductShow extends Component {
           {/* adding image host url */}
           <Link to={"product_page/" + productData.id}>
             <img
-              src={"http://127.0.0.1:8000" + productData.image}
+              src={SiteURL + productData.image}
               className="card-img rounded"
             />
           </Link>

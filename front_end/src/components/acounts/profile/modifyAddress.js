@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SiteURL from "../../../utils/url";
 
 class ModifyAddress extends Component {
   state = {
@@ -102,7 +103,7 @@ class ModifyAddress extends Component {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/customers/customer_address", {
+    fetch(SiteURL + "/api/v1/customers/customer_address", {
       method: "PUT",
       body: form,
       headers: header,

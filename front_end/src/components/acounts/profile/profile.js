@@ -5,6 +5,7 @@ import ModifyAddress from "./modifyAddress";
 import CheckoutsHistory from "./checkoutsHistory";
 import DeliveredCheckoutHistory from "./deliveredCheckoutHistory";
 import CheckUserAuth from "../../../utils/checkUserAuth";
+import SiteURL from "../../../utils/url";
 
 class Profile extends Component {
   state = {
@@ -204,7 +205,7 @@ class Profile extends Component {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/customers/customer_change_password", {
+    fetch(SiteURL + "/api/v1/customers/customer_change_password", {
       method: "POST",
       body: form,
       headers: header,
@@ -218,7 +219,7 @@ class Profile extends Component {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/customers/customer_profile", {
+    fetch(SiteURL + "/api/v1/customers/customer_profile", {
       method: "PUT",
       body: form,
       headers: header,
@@ -236,7 +237,7 @@ class Profile extends Component {
     const token = sessionStorage["token"];
     // getting customer profile info from token and storing
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/customers/customer_profile", {
+    fetch(SiteURL + "/api/v1/customers/customer_profile", {
       method: "GET",
       headers: header,
     })

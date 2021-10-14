@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import SiteURL from "../../utils/url";
 
 class Register extends Component {
   handleOnRegister = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    fetch("http://127.0.0.1:8000/api/v1/customers/register_login", {
-      method:'POST',
+    fetch(SiteURL + "/api/v1/customers/register_login", {
+      method: "POST",
       body: form,
     })
       .then((res) => res.json())

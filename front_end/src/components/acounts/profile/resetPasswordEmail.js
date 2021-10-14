@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import SiteURL from "../../../utils/url";
 
 class ResetPasswordEmail extends Component {
   createResetPasswordCode = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    fetch("http://127.0.0.1:8000/api/v1/customers/reset_password", {
+    fetch(SiteURL + "/api/v1/customers/reset_password", {
       method: "POST",
       body: form,
     });

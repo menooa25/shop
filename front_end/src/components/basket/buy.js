@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CheckUserAuth from "../../utils/checkUserAuth";
+import SiteURL from "../../utils/url";
 
 class Buy extends Component {
   state = { discount: 0, totalPrice: 0, discountCode: "" };
@@ -75,7 +76,7 @@ class Buy extends Component {
     const headers = new Headers();
     const token = sessionStorage["token"];
     headers.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/add_to_checkout", {
+    fetch(SiteURL + "/api/v1/orders/add_to_checkout", {
       method: "POST",
       headers,
       body: form,
@@ -87,7 +88,7 @@ class Buy extends Component {
     const headers = new Headers();
     const token = sessionStorage["token"];
     headers.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/discount", {
+    fetch(SiteURL + "/api/v1/orders/discount", {
       headers,
       body: form,
       method: "POST",

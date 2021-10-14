@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import CheckUserAuth from "../../utils/checkUserAuth";
+import SiteURL from "../../utils/url";
 
 const ProductPage = () => {
   const [id] = useState(useParams().id);
   const [product, setProduct] = useState(null);
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/v1/products/${id}`)
+    fetch(SiteURL + `/api/v1/products/${id}`)
       .then((res) => res.json())
       .then((res) => setProduct(res));
   }, []);
@@ -17,7 +18,7 @@ const ProductPage = () => {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/buy", {
+    fetch(SiteURL + "/api/v1/orders/buy", {
       method: "POST",
       headers: header,
       body: form,
@@ -64,7 +65,7 @@ const ProductPage = () => {
                   {" "}
                   <div className="d-flex">
                     <img
-                      src={"http://127.0.0.1:8000" + product.image}
+                      src={SiteURL + product.image}
                       className="ml-auto"
                       alt=""
                     />

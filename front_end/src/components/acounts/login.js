@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
+import SiteURL from "../../utils/url";
 
 class Login extends Component {
   state = { redirectToProfile: false };
   handleOnLogin = (e) => {
     e.preventDefault();
     const form = new FormData(e.target);
-    fetch("http://127.0.0.1:8000/api/v1/customers/register_login", {
+    fetch(SiteURL + "/api/v1/customers/register_login", {
       method: "PUT",
       body: form,
     })

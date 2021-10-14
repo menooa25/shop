@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import SiteURL from "../../../utils/url";
 
 function CheckoutsHistory(props) {
   const [checkout_history, setCheckoutHistory] = useState(null);
@@ -7,7 +8,7 @@ function CheckoutsHistory(props) {
     const header = new Headers();
     const token = sessionStorage["token"];
     header.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/orders_history", {
+    fetch(SiteURL + "/api/v1/orders/orders_history", {
       headers: header,
       method: "GET",
     })

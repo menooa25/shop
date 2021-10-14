@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Order from "./order";
+import SiteURL from "../../utils/url";
 
 class Orders extends Component {
   state = { orders: null };
@@ -29,7 +30,7 @@ class Orders extends Component {
     const headers = new Headers();
     const token = sessionStorage["token"];
     headers.set("Authorization", token);
-    fetch("http://127.0.0.1:8000/api/v1/orders/basket", { headers })
+    fetch(SiteURL + "/api/v1/orders/basket", { headers })
       .then((res) => res.json())
       .then((res) => {
         this.setState({ orders: res });

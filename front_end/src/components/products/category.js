@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SiteURL from "../../utils/url";
 
 class Category extends Component {
   state = { address: null };
@@ -32,7 +33,7 @@ class Category extends Component {
 
   //  getting category list
   componentDidMount() {
-    fetch("http://127.0.0.1:8000/api/v1/products/categories")
+    fetch(SiteURL + "/api/v1/products/categories")
       .then((res) => res.json())
       .then((res) => this.setState({ address: res }));
   }

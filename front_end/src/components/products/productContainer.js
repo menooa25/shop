@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import ProductShow from "./productShow";
 import Category from "./category";
+import SiteURL from "../../utils/url";
 
 class ProductContainer extends Component {
   state = { products: null, page: 0, no_pages: 1 };
@@ -85,13 +86,13 @@ class ProductContainer extends Component {
     // if value is -1 that means we should show all products
     if (value == -1) this.gettingAllProducts();
     else
-      fetch(`http://127.0.0.1:8000/api/v1/products/category/${value}`)
+      fetch(SiteURL + `/api/v1/products/category/${value}`)
         .then((res) => res.json())
         .then((res) => this.setState({ products: res, no_pages: res.length }));
   };
 
   gettingAllProducts = () => {
-    fetch("http://127.0.0.1:8000/api/v1/products/")
+    fetch(SiteURL + "/api/v1/products/")
       .then((res) => res.json())
       .then((res) => this.setState({ products: res, no_pages: res.length }));
   };
