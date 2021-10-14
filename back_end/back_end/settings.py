@@ -83,22 +83,22 @@ WSGI_APPLICATION = 'back_end.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'mysecretpassword',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    },
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql',
     #     'NAME': 'postgres',
-    #     'USER': 'root',
-    #     'PASSWORD': 'RYkj4eMobGjgOrEN08RYbVko',
-    #     'HOST': 'db-shop',
+    #     'USER': 'postgres',
+    #     'PASSWORD': 'mysecretpassword',
+    #     'HOST': '127.0.0.1',
     #     'PORT': '5432',
-    # }
+    # },
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'root',
+        'PASSWORD': 'VFcjIOAqmwVDkx7rOCAguzuv',
+        'HOST': 'polly.iran.liara.ir',
+        'PORT': '32113',
+    }
 }
 
 # Password validation
@@ -122,7 +122,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en-us' 
 
 TIME_ZONE = 'UTC'
 
@@ -160,3 +160,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #         'LOCATION': 'localhost:6379',
 #     },
 # }
+
+# swagger part
+SWAGGER_SETTINGS = {
+   'SECURITY_DEFINITIONS': {
+      'Basic': {
+            'type': 'basic'
+      },
+      'Token': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+      }
+   }
+}
