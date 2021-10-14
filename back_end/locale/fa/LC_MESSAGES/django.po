@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-14 16:58+0330\n"
+"POT-Creation-Date: 2021-10-14 17:41+0330\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,3 +73,21 @@ msgstr "ادرس درست شد و به یوزد اظافه شد"
 #: .\customer\api\views.py:182
 msgid "password changed successfully"
 msgstr "پسورد با موفقیت تغییر کرد"
+
+#: .\order\api\views.py:96
+msgid "product added to basket"
+msgstr "محصول به صبد خرید ازافه شد"
+
+#: .\order\api\views.py:97
+#, fuzzy
+#| msgid "Something went wrong"
+msgid "something went wrong"
+msgstr "چیزی درست نیست"
+
+#: .\order\api\views.py:116
+msgid "you dont have primary basket"
+msgstr "شما صبد خرید ندارید"
+
+#: .\order\api\views.py:129
+msgid "thanks for purchase"
+msgstr "ممنون بابت خرید"
