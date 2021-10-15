@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-x$)wtdf*jn=84jd!99%c9v11@33-(q2#$8ra7+8^40xclj42hl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -95,9 +95,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'root',
-        'PASSWORD': 'VFcjIOAqmwVDkx7rOCAguzuv',
+        'PASSWORD': 'oaN4N2mNzWSERVwwuI8ai8R9',
         'HOST': 'polly.iran.liara.ir',
-        'PORT': '32113',
+        'PORT': '31111',
     }
 }
 
@@ -150,6 +150,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
+    "https://front-shop.iran.liara.run"
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -160,6 +161,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #         'LOCATION': 'localhost:6379',
 #     },
 # }
+
+
+STATIC_ROOT = BASE_DIR / 'static'
 
 # swagger part
 SWAGGER_SETTINGS = {
